@@ -16,7 +16,7 @@ router.get('/comic/:comicId/chapter/:chapterId', async (req, res) => {
   const imageData = $('.imageData').attr('contentkey')!
   const jojo = data.match(/var jojo = '(.*?)'/)[1]
   const manga = parseImageData(imageData, jojo)
-  res.json(manga)
+  res.json({ ok: true, manga })
 })
 
 export default router
