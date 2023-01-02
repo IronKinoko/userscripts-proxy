@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A proxy server for userscripts",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "start": "next start"
