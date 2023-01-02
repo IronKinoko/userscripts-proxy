@@ -3,11 +3,13 @@ import axios from 'utils/axios'
 import { load } from 'cheerio'
 import { parseImageData } from 'utils/copymanga'
 
+// http://localhost:3000/api/copymanga/comic/nvshendeairelieerzhi/chapter/685ba4c6-ad1f-11e9-ab52-00163e0ca5bd
 const handler: NextApiHandler = async (req, res) => {
   const { comicId, chapterId } = req.query as Record<string, string>
 
   const { data } = await axios.get(
-    `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`
+    `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`,
+    { headers: { cookie: 'webp=1' } }
   )
 
   const $ = load(data)
