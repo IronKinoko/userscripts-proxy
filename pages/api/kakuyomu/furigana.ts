@@ -3,6 +3,7 @@ import KuromojiAnalyzer from 'kuroshiro-analyzer-kuromoji'
 import { NextApiHandler } from 'next'
 import axios from 'utils/axios'
 import { JSDOM } from 'jsdom'
+import path from 'path'
 
 async function autoFurigana(html: string) {
   const window = new JSDOM(html).window
@@ -11,7 +12,9 @@ async function autoFurigana(html: string) {
   const articleEl = document.body.querySelector('#contentMain-inner')!
 
   const kuroshiro = new Kuroshiro()
-  await kuroshiro.init(new KuromojiAnalyzer())
+  await kuroshiro.init(
+    new KuromojiAnalyzer({ dictPath: path.resolve(process.cwd(), 'public/kakuyomu/dict/') })
+  )
   await (async function traverse(node: ChildNode) {
     if (node.nodeType === document.TEXT_NODE) {
       const result: string = await kuroshiro.convert(node.textContent, {

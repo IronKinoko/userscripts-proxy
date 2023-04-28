@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "pages/api/kakuyomu/furigana.ts": {
-      "includeFiles": "node_modules/**"
-    }
-  }
-}
