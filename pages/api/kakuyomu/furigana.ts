@@ -32,9 +32,19 @@ async function autoFurigana(html: string) {
   return articleEl.outerHTML
 }
 
+type Query = {
+  workId: string
+  episodeId: string
+}
+type Data = {
+  ok: boolean
+  message?: string
+  html?: string
+}
+
 // http://localhost:3000/api/kakuyomu/furigana?workId=16817139555217983105&episodeId=16817139558201180147
-const handler: NextApiHandler = async (req, res) => {
-  const { workId, episodeId } = req.query as Record<string, string>
+const handler: NextApiHandler<Data> = async (req, res) => {
+  const { workId, episodeId } = req.query as Query
 
   try {
     const { data } = await axios.get(`https://kakuyomu.jp/works/${workId}/episodes/${episodeId}`)
