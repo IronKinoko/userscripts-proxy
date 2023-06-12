@@ -19,7 +19,7 @@ const handler: NextApiHandler<Data> = async (req, res) => {
 
   const { data } = await axios.get(
     `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`,
-    { headers: { cookie: 'webp=1' } }
+    // { headers: { cookie: 'webp=1' } }
   )
 
   const $ = load(data)
