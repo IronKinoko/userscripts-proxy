@@ -18,14 +18,14 @@ const handler: NextApiHandler<Data> = async (req, res) => {
   const { comicId, chapterId } = req.query as Query
 
   const { data } = await axios.get(
-    `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`,
-    // { headers: { cookie: 'webp=1' } }
+    `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`
   )
 
   const $ = load(data)
   const imageData = $('.imageData').attr('contentkey')!
   const jojo = data.match(/var jojo = '(.*?)'/)[1]
   const manga = parseImageData(imageData, jojo)
+  res.setHeader('Cache-Control', 'public, max-age=3600')
   res.json({ ok: true, manga })
 }
 
