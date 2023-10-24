@@ -25,7 +25,7 @@ const handler: NextApiHandler<Data> = async (req, res) => {
   const imageData = $('.imageData').attr('contentkey')!
   const jojo = data.match(/var jojo = '(.*?)'/)[1]
   const manga = parseImageData(imageData, jojo)
-  res.setHeader('Cache-Control', 'public, max-age=3600')
+  res.setHeader('Cache-Control', 'public, max-age=86400')
   res.json({ ok: true, manga })
 }
 
