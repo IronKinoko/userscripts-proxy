@@ -19,7 +19,7 @@ const handler: NextApiHandler<Data> = async (req, res) => {
   const { comicId, chapterId } = req.query as Query
 
   const { data } = await axios.get(
-    `https://www.copymanga.site/comic/${comicId}/chapter/${chapterId}`
+    `https://www.copymanga.tv/comic/${comicId}/chapter/${chapterId}`
   )
 
   const $ = load(data)
