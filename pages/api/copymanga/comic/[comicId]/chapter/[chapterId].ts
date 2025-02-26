@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next'
 import axios from 'utils/axios'
 import { load } from 'cheerio'
 import { parseImageData } from 'utils/copymanga'
+import https from 'https'
 
 type Query = {
   comicId: string
@@ -19,7 +20,8 @@ const handler: NextApiHandler<Data> = async (req, res) => {
   const { comicId, chapterId } = req.query as Query
 
   const { data } = await axios.get(
-    `https://www.copymanga.tv/comic/${comicId}/chapter/${chapterId}`
+    `https://www.copymanga.tv/comic/${comicId}/chapter/${chapterId}`,
+    { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
   )
 
   const $ = load(data)
