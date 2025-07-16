@@ -19,27 +19,31 @@ type Data = {
 const handler: NextApiHandler<Data> = async (req, res) => {
   const { comicId, chapterId } = req.query as Query
 
-  const { data } = await axios.get(
-    `https://www.mangacopy.com/comic/${comicId}/chapter/${chapterId}`,
-    { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
-  )
+  try {
+    const { data } = await axios.get(
+      `https://www.mangacopy.com/comic/${comicId}/chapter/${chapterId}`,
+      { httpsAgent: new https.Agent({ rejectUnauthorized: false }) }
+    )
 
-  const $ = load(data)
-  const imageData = $('.imageData').attr('contentkey')!
-  const jojo = data.match(/var jojo = '(.*?)'/)[1]
-  const manga = parseImageData(imageData, jojo)
+    const $ = load(data)
+    const imageData = $('.imageData').attr('contentkey')!
+    const jojo = data.match(/var (?:ccy|jojo) = '(.*?)'/)[1]
+    const manga = parseImageData(imageData, jojo)
 
-  let next: Query | undefined
-  const nextHref = $('.comicContent-next a').attr('href')
-  if (nextHref) {
-    const match = nextHref.match(/comic\/(?<comicId>.*?)\/chapter\/(?<chapterId>.*)/)
-    if (match) {
-      next = match.groups! as Query
+    let next: Query | undefined
+    const nextHref = $('.comicContent-next a').attr('href')
+    if (nextHref) {
+      const match = nextHref.match(/comic\/(?<comicId>.*?)\/chapter\/(?<chapterId>.*)/)
+      if (match) {
+        next = match.groups! as Query
+      }
     }
-  }
 
-  res.setHeader('Cache-Control', 'public, max-age=86400')
-  res.json({ ok: true, manga, next })
+    res.setHeader('Cache-Control', 'public, max-age=86400')
+    res.json({ ok: true, manga, next })
+  } catch (error) {
+    res.json({ ok: false, message: error.message })
+  }
 }
 
 export default handler
