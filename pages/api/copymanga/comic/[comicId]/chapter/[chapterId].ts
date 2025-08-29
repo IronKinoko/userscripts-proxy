@@ -26,8 +26,8 @@ const handler: NextApiHandler<Data> = async (req, res) => {
     )
 
     const $ = load(data)
-    const imageData = $('.imageData').attr('contentkey')!
-    const jojo = data.match(/var (?:ccy|jojo) = '(.*?)'/)[1]
+    const imageData = data.match(/var (?:contentKey) = '(.*?)'/)[1]
+    const jojo = data.match(/var (?:cct) = '(.*?)'/)[1]
     const manga = parseImageData(imageData, jojo)
 
     let next: Query | undefined
